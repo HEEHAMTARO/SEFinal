@@ -61,6 +61,33 @@ func TestUnit(t *testing.T) {
 	})
 }
 
+func TestFirstName(t *testing.T){
+	g := NewGomegaWithT(t)
+
+	t.Run("FirstName is required", func(t *testing.T){
+		users := entity.User{
+			StudentID: "B6511326",
+			FirstName: "",
+			LastName:  "test",
+			Email:     "test@gmail.com",
+			Phone:     "0800000000",
+			Profile:   "",
+			Password:  "",
+			BirthDay:  time.Now(),
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
+			GenderID:  1,
+		}
+
+		ok, err := govalidator.ValidateStruct(users)
+
+		g.Expect(ok).NotTo(BeTrue())
+
+		g.Expect(err).NotTo(BeNil())
+
+		g.Expect(err.Error()).To(Equal("FirstName is required"))
+	})
+}
+
 func TestUsersStudentID(t *testing.T) {
 	g := NewGomegaWithT(t)
 	t.Run("UsersID is required", func(t *testing.T) {
